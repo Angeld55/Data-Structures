@@ -2,7 +2,7 @@
 #include <string>
 
 
-//двоично дърво с търсене по ключ
+//Binary Tree ,searching by key
 struct Node
 {
 	Node(int k,std::string d)
@@ -17,10 +17,6 @@ struct Node
 	int key;
 	Node* left;
 	Node* right;
-	~Node()
-	{
-		std::cout << "Delete " << data << std::endl;
-	}
 };
 Node* findMinNode(Node* st);
 void addNode(Node*& dest,int key, std::string data)
@@ -57,26 +53,26 @@ void deleteNode(Node*& st, int key)
 		return;
 	else if (st->key == key)
 	{
-		if (st->left == nullptr&&st->right == nullptr)
+		if (st->left == nullptr&&st->right == nullptr) // No subtrees
 		{
 			delete st;
 			st = nullptr;
 		}
-		else if (st->left == nullptr)
+		else if (st->left == nullptr) //only right subtree
 		{
 			Node* temp = st->right;
 			delete st;
 			st = temp;
 		}
-		else if (st->right == nullptr)
+		else if (st->right == nullptr) //only left subtree
 		{
 			Node*temp = st->left;
 			delete st;
 			st = temp;
 		}
-		else
+		else   // left and right subtrees
 		{
-			Node* min = findMinNode(st->right);
+			Node* min = findMinNode(st->right);//finding na min element from the right subtree
 			//swaping two elements;
 			std::string minData = min->data;
 			int minKey = min->key;
@@ -121,6 +117,6 @@ int main()
 	addNode(parent, 70, "Deba");
 	addNode(parent, 100, "Peshkata");
 	deleteNode(parent, 99);
-	system("pause");
+	return 0;
 
 }
