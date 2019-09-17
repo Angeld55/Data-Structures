@@ -15,30 +15,73 @@ class LinkedList
 	};
 	Node* head;
 	Node* tail;
+
+	void Free();
+	void CopyFrom(const LinkedList& other);
 public:
 	LinkedList();
+	LinkedList(const LinkedList& other);
+	LinkedList operator=(const LinkedList& other);
+	~LinkedList();
 
-	void AddLast(T);
-	void AddFirst(T);
+	void AddLast(T); // O(1)
+	void AddFirst(T);  //O(1)
 
-	T RemoveFirst();
-    T RemoveLast();
-	
-	T PeekFirst();
-	T PeekLast();
-	
+	T RemoveLast(); //O(n)
+	T RemoveFirst(); //O(1)
 
-    void Print();
-	
-    T GetAtIndex(int index);
-	
-    ~LinkedList();
+	void Print();
+
+	T GetAtIndex(int index);
+
 };
+
+template <typename T>
+void LinkedList<T>::Free()
+{
+	Node* iter = head;
+	while (iter!=nullptr)
+	{
+		Node* prev = iter;
+		iter = iter->next;
+		delete prev;
+	}
+}
+
+template <typename T>
+void LinkedList<T>::CopyFrom(const LinkedList& other)
+{
+	Node* iter = other.head;
+	while (iter != nullptr)
+	{
+		AddLast(iter->data);
+		iter = iter->next;
+	}
+	
+}
+
 template <typename T>
 LinkedList<T>::LinkedList()
 {
 	head = nullptr;
 	tail = nullptr;
+}
+
+template <typename T>
+LinkedList<T>::LinkedList(const LinkedList& other)
+{
+	CopyFrom(other);
+}
+
+template <typename T>
+LinkedList<T> LinkedList<T>::operator=(const LinkedList& other)
+{
+	if (this!=&other)
+	{
+		Free();
+		CopyFrom(other);
+	}
+	return *this;
 }
 
 template <typename T>
@@ -57,7 +100,7 @@ void LinkedList<T>::AddLast(T el)
 	}
 }
 template <typename T>
-void LinkedList<T>::AddFirst(T el)
+void LinkedList<T>::AddFirst(T el) 
 {
 	Node* newNode = new Node(el);
 	if (head == nullptr&&tail == nullptr)//if its empty
@@ -72,17 +115,7 @@ void LinkedList<T>::AddFirst(T el)
 	}
 }
 template <typename T>
-T LinkedList<T>::PeekFirst()
-{
-	return head->data;
-}
-template <typename T>
-T LinkedList<T>::PeekLast()
-{
-	return tail->data;
-}
-template <typename T>
-T LinkedList<T>::RemoveLast()
+T LinkedList<T>::RemoveLast() //O(n)
 {
 	if (head == nullptr&&tail == nullptr)
 		throw "The list is empty";
@@ -164,12 +197,7 @@ T LinkedList<T>::GetAtIndex(int index)
 template <typename T>
 LinkedList<T>::~LinkedList()
 {
-	Node* iter = head;
-	while (iter != nullptr)
-	{
-		Node* next = iter->next;
-		delete iter;
-		iter = next;
-	}
+	Free();
 }
+
 
