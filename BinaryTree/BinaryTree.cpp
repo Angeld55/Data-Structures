@@ -1,39 +1,37 @@
 #include <iostream>
 #include <string>
 
-
-//Binary Tree ,searching by key
+void swap(int& i, int& j);
+//Binary Tree
 struct Node
 {
-	Node(int k,std::string d)
+	Node(int k)
 	{
-		data = d;
+		
 		key = k;
-		data = d;
 		left = nullptr;
 		right = nullptr;
 	}
-	std::string data;
 	int key;
 	Node* left;
 	Node* right;
 };
 Node* findMinNode(Node* st);
-void addNode(Node*& dest,int key, std::string data)
+void addNode(Node*& dest, int key)
 {
 	if (dest == nullptr)
 	{
-		Node* newNode = new Node(key, data);
+		Node* newNode = new Node(key);
 		dest = newNode;
 	}
 	else
 	{
 		if (key > dest->key)
-			addNode(dest->right, key, data);
+			addNode(dest->right, key);
 		else if (key < dest->key)
-			addNode(dest->left, key, data);
+			addNode(dest->left, key);
 		else
-			std::cout << "Element with such key exist\n";
+			throw "Element with number exist";
 	}
 }
 Node* search(Node* st, int key)
@@ -73,15 +71,11 @@ void deleteNode(Node*& st, int key)
 		else   // left and right subtrees
 		{
 			Node* min = findMinNode(st->right);//finding na min element from the right subtree
+			
 			//swaping two elements;
-			std::string minData = min->data;
-			int minKey = min->key;
-			min->data = st->data;
-			min->key = st->key;
-			st->data =minData;
-			st->key = minKey;
+			swap(min->key, st->key);
 
-			deleteNode(st->right,key); // we could use it directly the pointer min,but we wouldn't take care of the pointer from the parrent 
+			deleteNode(st->right, key); // we could use it directly the pointer min,but we wouldn't take care of the pointer from the parrent 
 		}
 	}
 	else if (key > st->key)
@@ -98,25 +92,38 @@ Node* findMinNode(Node* st)
 	else
 		return st;
 }
+int countNodes(Node* root)
+{
+	if (root == nullptr)
+		return 0;
+	return 1 + countNodes(root->left) + countNodes(root->right);
+}
 void printNode(Node* node)
 {
 	if (node == nullptr)
 		std::cout << "No node\n";
 	else
-		std::cout << "Node with key: " << node->key << " Data: " << node->data << std::endl;
+		std::cout << "Node with key: " << node->key << std::endl;
 }
-
+void swap(int& i,int& j)
+{
+	int temp = i;
+	i = j;
+	j = temp;
+}
 int main()
 {
-	Node* parent = new Node(5, "Angel");
-	addNode(parent, 3, "Ivan");
-	addNode(parent, 6, "Stefan");
-	addNode(parent, 99, "Petko");
-	addNode(parent, 4, "Gosho");
-	addNode(parent, 2, "Iliqn");
-	addNode(parent, 70, "Deba");
-	addNode(parent, 100, "Peshkata");
+	Node* parent = new Node(5);
+	addNode(parent, 3);
+	addNode(parent, 6);
+	addNode(parent, 99);
+	addNode(parent, 4);
+	addNode(parent, 2);
+	addNode(parent, 70);
+	addNode(parent, 100);
+	std::cout<<countNodes(parent);
 	deleteNode(parent, 99);
+	std::cout<<countNodes(parent);
 	return 0;
 
 }
