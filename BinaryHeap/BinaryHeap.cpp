@@ -3,9 +3,9 @@
 
 class BinaryHeap
 {
-    int* arr;
-    int capacity;
-    int count;
+	int* arr;
+	int capacity;
+	int count;
 	void swap(int i, int j);
 	int closestPowerOfTwo(int n);
 	void resizeArr(int newCap);
@@ -16,20 +16,20 @@ class BinaryHeap
 
 	void CopyFrom(const BinaryHeap& other);
 	void Free();
-    public:
+public:
 
 	BinaryHeap(); //Empty
-    BinaryHeap(const int* a, int len);
-	
+	BinaryHeap(const int* a, int len);
+
 	BinaryHeap(const BinaryHeap& other);
 	BinaryHeap& operator=(const BinaryHeap& other);
 
 	void Add(int el);
-   
+
 	int ExtractMax();
 
-	void Heapyfy(int* arr,int el, int count);
-    
+	void Heapyfy(int* arr, int el, int count);
+
 	void Print();
 	~BinaryHeap();
 
@@ -62,7 +62,7 @@ void BinaryHeap::resizeArr(int newCap)
 
 void BinaryHeap::printHelp(int elIndex, int space)
 {
-	if (elIndex>=count)
+	if (elIndex >= count)
 		return;
 
 	// Increase distance between levels  
@@ -70,7 +70,7 @@ void BinaryHeap::printHelp(int elIndex, int space)
 
 	// Process right child first  
 	printHelp(RightChildIndex(elIndex), space);
-	
+
 	// Print current node after space  
 	// count  
 	std::cout << std::endl;
@@ -97,7 +97,7 @@ BinaryHeap::BinaryHeap(const int* a, int len)
 	for (int i = 0; i<len; i++)
 		arr[i] = a[i];
 	for (int i = len / 2; i >= 0; i--)
-		Heapyfy(arr,i, count);
+		Heapyfy(arr, i, count);
 }
 
 BinaryHeap::BinaryHeap(const BinaryHeap& other)
@@ -134,7 +134,7 @@ void BinaryHeap::Free()
 
 BinaryHeap& BinaryHeap::operator=(const BinaryHeap& other)
 {
-	if (this!=&other)
+	if (this != &other)
 	{
 		Free();
 		CopyFrom(other);
@@ -163,12 +163,12 @@ int BinaryHeap::ExtractMax()
 	int max = arr[0];
 	swap(0, count - 1);
 	count--;
-	Heapyfy(arr,0, count - 1);
+	Heapyfy(arr, 0, count);
 	if (count > 1 && count < capacity / 2)
 		resizeArr(capacity / 2);
 	return max;
 }
-void BinaryHeap::Heapyfy(int* arr,int el, int count)
+void BinaryHeap::Heapyfy(int* arr, int el, int count)
 {
 	int elIndex = el;
 	while (true)
@@ -204,7 +204,7 @@ void BinaryHeap::Heapyfy(int* arr,int el, int count)
 		}
 		else
 			break;
-		
+
 	}
 }
 void BinaryHeap::Print()
@@ -217,17 +217,20 @@ BinaryHeap::~BinaryHeap()
 }
 
 //Not the best implementation! For better code, see Algorithms repository
-void HeapSort(int* arr,int len)
+void HeapSort(int* arr, int len)
 {
-    BinaryHeap heap(arr,len); //O(n)
-    for(int i =len-1;i>=0;i--)  //n times
-        arr[i]=heap.ExtractMax(); //O(logn)
+	BinaryHeap heap(arr, len); //O(n)
+	for (int i = len - 1; i >= 0; i--)  //n times
+		arr[i] = heap.ExtractMax(); //O(logn)
 
 }
 int main()
 {
 	int arr[] = { 1, 2, 3, 4, 5, 6 };
 	BinaryHeap b(arr, 6);
-	//b.ExtractMax();
+	b.Print();
+
+	std::cout << "   Extracting max..." << std::endl;
+	b.ExtractMax();
 	b.Print();
 }
