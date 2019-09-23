@@ -1,11 +1,39 @@
-#include "Dictionary.h"
 
+#include "DictionaryStringInt.h"
+
+Node* CopyNode(Node* n)
+{
+	if (n == nullptr)
+		return nullptr;
+	return new Node(*n);
+}
 Dictionary::Dictionary()
 {
 	hashTable = new Node*[N];
 	for (int i = 0; i < N; i++)
 		hashTable[i] = nullptr;
 }
+
+Dictionary::Dictionary(const Dictionary& other)
+{
+	CopyFrom(other);
+}
+
+Dictionary& Dictionary::operator=(const Dictionary& other)
+{
+	if (this != & other)
+	{
+		Free();
+		CopyFrom(other);
+	}
+	return *this;
+}
+
+Dictionary::~Dictionary()
+{
+	Free();
+}
+
 void Dictionary::insertBegin(std::string key, int value,int index)
 {
 	Node* newNode = new Node(key, value);
@@ -25,12 +53,47 @@ Node* Dictionary::getNodeByKey(std::string key, int index){
 
 unsigned Dictionary::hashFunction(std::string key)
 {
+		return 0;
 		int keyLength = key.length();
 		int result = keyLength;
 		for (int i = 0; i < keyLength; i++)
 			result = (result << 4) ^ (result >> 8) ^ (key[i]);
 		return result%N;
 }
+
+void Dictionary::CopyFrom(const Dictionary& other)
+{
+	
+	hashTable = new Node*[N];
+	for (int i = 0; i < N; i++)
+	{
+		hashTable[i] = CopyNode(other.hashTable[i]);
+		Node* iter = hashTable[i];
+		if (!iter)
+			continue;
+		while (iter->next!=nullptr)
+		{
+			iter->next = CopyNode(iter->next);
+			iter = iter->next;
+		}
+	}
+}
+
+void Dictionary::Free()
+{
+	for (int i = 0; i < N; ++i)
+	{
+		Node* iter = hashTable[i];
+		while (iter!=nullptr)
+		{
+			Node* past = iter;
+			iter = iter->next;
+			delete past;
+		}
+	}
+	delete[] hashTable;
+}
+
 bool Dictionary::put(std::string key, int value)
 {
 	unsigned result = hashFunction(key);
