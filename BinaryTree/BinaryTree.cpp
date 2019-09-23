@@ -1,7 +1,9 @@
+#pragma once
 #include <iostream>
-#include <string>
 
 void swap(int& i, int& j);
+
+
 //Binary Tree
 struct Node
 {
@@ -111,6 +113,14 @@ void swap(int& i,int& j)
 	i = j;
 	j = temp;
 }
+void FreeTree(Node* root)
+{
+	if (root==nullptr)
+		return;
+	FreeTree(root->left);
+	FreeTree(root->right);
+	delete root;
+}
 int main()
 {
 	Node* parent = new Node(5);
@@ -124,6 +134,7 @@ int main()
 	std::cout<<countNodes(parent);
 	deleteNode(parent, 99);
 	std::cout<<countNodes(parent);
+	FreeTree(parent);
 	return 0;
 
 }
