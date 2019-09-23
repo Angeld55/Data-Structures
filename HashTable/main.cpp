@@ -8,6 +8,6 @@ int main()
 		d->put("dd", 135);
 		d->put("ddd", 123);
 
-		std::cout << d->get("d");
-	
+		std::cout << d->get("dd");
+		
 }

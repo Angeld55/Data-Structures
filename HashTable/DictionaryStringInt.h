@@ -1,5 +1,4 @@
 #pragma once
-
 #include<iostream>
 #define N 221
 struct Node
@@ -14,7 +13,7 @@ struct Node
 	unsigned value;
 	Node* next;
 };
-//for the copy constructor
+
 
 
 class Dictionary
@@ -37,6 +36,7 @@ public:
 
 	bool remove(std::string);
 	bool put(std::string, int value);
+	bool contains(std::string);
 	int get(std::string);
 	
 };

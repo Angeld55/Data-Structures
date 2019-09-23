@@ -1,6 +1,7 @@
 
 #include "DictionaryStringInt.h"
 
+//for the copy constructor
 Node* CopyNode(Node* n)
 {
 	if (n == nullptr)
@@ -53,7 +54,6 @@ Node* Dictionary::getNodeByKey(std::string key, int index){
 
 unsigned Dictionary::hashFunction(std::string key)
 {
-		return 0;
 		int keyLength = key.length();
 		int result = keyLength;
 		for (int i = 0; i < keyLength; i++)
@@ -103,6 +103,13 @@ bool Dictionary::put(std::string key, int value)
 	return true;
 
 }
+
+bool Dictionary::contains(std::string key)
+{
+	unsigned result = hashFunction(key);
+	return getNodeByKey(key, result) != nullptr;
+}
+
 bool Dictionary::remove(std::string key)
 {
 	unsigned result = hashFunction(key);
