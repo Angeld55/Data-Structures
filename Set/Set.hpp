@@ -26,12 +26,7 @@ public:
 	T getElement(int pos) const;
 	bool Add(T elem);
 	bool Contains(T elem) const;
-	void Print();
 	int getAt(int ind) const;
-
-	//friend bool operator==(const Set<T>& rhs, const Set<T>& lhs);
-
-
 };
 
 template<typename T>
@@ -143,13 +138,6 @@ bool Set<T>::Contains(T elem) const {
 	return false;
 }
 
-template<typename T>
-void Set<T>::Print() {
-
-	for (int i = 0; i < getSize(); i++)
-		std::cout << elements[i] << " ";
-	std::cout << std::endl;
-}
 
 template <typename T>
 int Set<T>::getAt(int ind) const
@@ -179,11 +167,10 @@ Set<T> Intersection(const Set<T>& set1, const Set<T>& set2) {
 	Set<T> new_set;
 
 	for (int i = 0; i < set1.getSize(); i++) {
-		for (int j = 0; j < set2.getSize(); j++) {
-			if (set1.getElement(i) == set2.getElement(j))
-				new_set.Add(set1.getElement(i));
-		}
+		if (set2.Contains(set1.getElement(i)))
+			new_set.Add(set1.getElement(i));
 	}
+	
 	return new_set;
 }
 
@@ -194,30 +181,12 @@ Set<T> SetDifference(const Set<T>& set1,const Set<T>& set2) {
 	bool isIn = false;
 
 	for (int i = 0; i < set1.getSize(); i++) {
-		for (int j = 0; j < set2.getSize(); j++) {
-			if (set1.getElement(i) == set2.getElement(j)) 
-				isIn = true;
-		}
-
-		if (!isIn) 
+		if (!set2.Contains(set1.getElement(i)))
 			new_set.Add(set1.getElement(i));
-		
-		isIn = false;
 	}
 	return new_set;
 }
 
-bool operator==(const Set<int>& rhs, const Set<int>& lhs) {
-
-	if (rhs.getSize() != lhs.getSize())
-		return  false;
-	for (int i = 0; i < lhs.getSize(); ++i)
-	{
-		if (!rhs.Contains(lhs.getAt(i)))
-			return false;
-	}
-	return true;
-}
 
 
 #endif // !SET_HDR
