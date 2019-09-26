@@ -221,6 +221,8 @@ const T& DynamicArray<T>::operator[](size_t index) const {
 
 template<typename T>
 T& DynamicArray<T>::operator[](size_t index) {
+	if (index > curSize)
+		throw std::out_of_range("Out of range!");
 	return arr[index];
 }
 
