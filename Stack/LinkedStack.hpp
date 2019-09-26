@@ -27,7 +27,7 @@ public:
 	void Push(T);  //O(1)
 	T Pop(); //O(1)
 
-	bool isEmpty();
+	bool isEmpty() const;
 
 };
 
@@ -46,12 +46,22 @@ void LinkedStack<T>::Free()
 template <typename T>
 void LinkedStack<T>::CopyFrom(const LinkedStack& other)
 {
-	Node* iter = other.head;
-	while (iter != nullptr)
+	if (other.isEmpty())
+		return;
+
+	Node* iterOther = other.head;
+
+	head = new Node(iterOther->data);
+	Node* iterThis = head;
+	do
 	{
-		AddLast(iter->data);
-		iter = iter->next;
-	}
+		iterOther = iterOther->next;
+		if (iterOther)
+		{
+			iterThis->next = new Node(iterOther->data);
+			iterThis = iterThis->next;
+		}
+	} while (iterOther);
 
 }
 
@@ -116,7 +126,7 @@ T LinkedStack<T>::Pop()
 }
 
 template <typename T>
-bool LinkedStack<T>::isEmpty()
+bool LinkedStack<T>::isEmpty() const
 {
 	return head == nullptr;
 }
