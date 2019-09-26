@@ -53,7 +53,7 @@ void LinkedQueue<T>::CopyFrom(const LinkedQueue& other)
 	Node* iter = other.head;
 	while (iter != nullptr)
 	{
-		AddLast(iter->data);
+		Enqueue(iter->data);
 		iter = iter->next;
 	}
 	
