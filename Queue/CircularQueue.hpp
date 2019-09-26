@@ -24,8 +24,8 @@ public:
 	~Queue();
 
 	bool isEmpty() const;
-	void Push(T el);
-	T Pop();
+	void Enqueue(T el);
+	T Dequeue();
 	T& Peek();
 };
 
@@ -33,7 +33,7 @@ template <typename T>
 void Queue<T>::Resize() {
 	T* temp = new T[capacity * 2];
 	for (int i = 0; i < capacity; ++i)
-		temp[i] = Pop();
+		temp[i] = Dequeue();
 	whereToGet = 0;
 	whereToPut = capacity;
 	count = capacity;
@@ -45,7 +45,7 @@ void Queue<T>::Resize() {
 template <typename T>
 void Queue<T>::CopyFrom(const Queue<T>& other) {
 	arr = new T[other.capacity];
-	for (int i = 0; i < other.count; ++i)
+	for (int i = other.whereToGet; i != other.whereToPut; (i+=1)%=other.capacity)
 		arr[i] = other.arr[i];
 	count = other.count;
 	capacity = other.capacity;
@@ -93,7 +93,7 @@ bool Queue<T>::isEmpty() const {
 }
 
 template <typename T>
-void Queue<T>::Push(T el) {
+void Queue<T>::Enqueue(T el) {
 	if (count == capacity)
 		Resize();
 	arr[whereToPut] = el;
@@ -102,7 +102,7 @@ void Queue<T>::Push(T el) {
 }
 
 template <typename T>
-T Queue<T>::Pop() {
+T Queue<T>::Dequeue() {
 	if (count == 0)
 		throw "Queue is empty";
 	T elToReturn = arr[whereToGet];
