@@ -6,17 +6,22 @@ class BinaryHeap
 	int* arr;
 	int capacity;
 	int count;
+	
 	void swap(int i, int j);
-	int closestPowerOfTwo(int n);
+	int closestPowerOfTwo(int n); //so the size would be a power of 2
 	void resizeArr(int newCap);
 	void printHelp(int el, int space);
+	
 	int LeftChildIndex(int i);
 	int RightChildIndex(int i);
 	int ParentIndex(int i);
 
+	void Heapyfy(int* arr, int el, int count);
+
 	void CopyFrom(const BinaryHeap& other);
 	void Free();
 public:
+
 
 	BinaryHeap(); //Empty
 	BinaryHeap(const int* a, int len);
@@ -24,14 +29,13 @@ public:
 	BinaryHeap(const BinaryHeap& other);
 	BinaryHeap& operator=(const BinaryHeap& other);
 
+    ~BinaryHeap();
+    
 	void Add(int el);
 
 	int ExtractMax();
 
-	void Heapyfy(int* arr, int el, int count);
-
 	void Print();
-	~BinaryHeap();
 
 };
 
@@ -117,7 +121,45 @@ int BinaryHeap::ParentIndex(int i)
 {
 	return (i - 1) / 2;
 }
+void BinaryHeap::Heapyfy(int* arr, int el, int count)
+{
+	int elIndex = el;
+	while (true)
+	{
+		int leftChIndex = LeftChildIndex(elIndex);
+		int rightChIndex = RightChildIndex(elIndex);
 
+		bool isSmallerThanLeft = leftChIndex<count && arr[elIndex]<arr[leftChIndex];
+		bool isSmallerThanRight = rightChIndex<count && arr[elIndex]<arr[rightChIndex];
+
+		if (isSmallerThanLeft&&!isSmallerThanRight)
+		{
+			swap(elIndex, LeftChildIndex(elIndex));
+			elIndex = LeftChildIndex(elIndex);
+		}
+		else if (!isSmallerThanLeft&&isSmallerThanRight)
+		{
+			swap(elIndex, RightChildIndex(elIndex));
+			elIndex = RightChildIndex(elIndex);
+		}
+		else if (isSmallerThanLeft&&isSmallerThanRight)
+		{
+			if (arr[LeftChildIndex(elIndex)]>arr[RightChildIndex(elIndex)])
+			{
+				swap(elIndex, LeftChildIndex(elIndex));
+				elIndex = LeftChildIndex(elIndex);
+			}
+			else
+			{
+				swap(elIndex, RightChildIndex(elIndex));
+				elIndex = RightChildIndex(elIndex);
+			}
+		}
+		else
+			break;
+
+	}
+}
 void BinaryHeap::CopyFrom(const BinaryHeap& other)
 {
 	arr = new int[other.capacity];
@@ -168,45 +210,7 @@ int BinaryHeap::ExtractMax()
 		resizeArr(capacity / 2);
 	return max;
 }
-void BinaryHeap::Heapyfy(int* arr, int el, int count)
-{
-	int elIndex = el;
-	while (true)
-	{
-		int leftChIndex = LeftChildIndex(elIndex);
-		int rightChIndex = RightChildIndex(elIndex);
 
-		bool isSmallerThanLeft = leftChIndex<count && arr[elIndex]<arr[leftChIndex];
-		bool isSmallerThanRight = rightChIndex<count && arr[elIndex]<arr[rightChIndex];
-
-		if (isSmallerThanLeft&&!isSmallerThanRight)
-		{
-			swap(elIndex, LeftChildIndex(elIndex));
-			elIndex = LeftChildIndex(elIndex);
-		}
-		else if (!isSmallerThanLeft&&isSmallerThanRight)
-		{
-			swap(elIndex, RightChildIndex(elIndex));
-			elIndex = RightChildIndex(elIndex);
-		}
-		else if (isSmallerThanLeft&&isSmallerThanRight)
-		{
-			if (arr[LeftChildIndex(elIndex)]>arr[RightChildIndex(elIndex)])
-			{
-				swap(elIndex, LeftChildIndex(elIndex));
-				elIndex = LeftChildIndex(elIndex);
-			}
-			else
-			{
-				swap(elIndex, RightChildIndex(elIndex));
-				elIndex = RightChildIndex(elIndex);
-			}
-		}
-		else
-			break;
-
-	}
-}
 void BinaryHeap::Print()
 {
 	printHelp(0, 0);
