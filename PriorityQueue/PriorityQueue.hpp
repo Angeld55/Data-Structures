@@ -113,7 +113,7 @@ int PriorityQueue<T>::ParentIndex(int i)
 }
 
 template <typename T>
-void PriorityQueue<T>::Heapyfy(T* arr, int el, int count)
+void PriorityQueue<T>::Heapyfy(T* arr, int el, int count) //Not the best implementation (good for education purposes)
 {
 	int elIndex = el;
 	while (true)
