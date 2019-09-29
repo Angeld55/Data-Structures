@@ -121,7 +121,7 @@ int BinaryHeap::ParentIndex(int i)
 {
 	return (i - 1) / 2;
 }
-void BinaryHeap::Heapyfy(int* arr, int el, int count)
+void BinaryHeap::Heapyfy(int* arr, int el, int count) //Not the best implementation (good for education purposes)
 {
 	int elIndex = el;
 	while (true)
