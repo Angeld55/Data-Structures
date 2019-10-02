@@ -93,7 +93,7 @@ template <typename T>
 void LinkedStack<T>::Push(T el)
 {
 	Node* newNode = new Node(el);
-	if (head == nullptr)//if its empty
+	if (isEmpty())
 		head = newNode;
 	else
 	{
