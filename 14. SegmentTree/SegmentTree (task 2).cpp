@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <iterator>
 using namespace std;
+//We need to answer queries of this type : How many numbers between X-th and Y-th position are in the interval [L,K] (<=k and >= L)?
+// the array is from distinct numbers !
 
 #define HI(left,right,X, Y)  (left <= Y && right >= X) //hasIntersection
 #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
