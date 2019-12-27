@@ -47,7 +47,7 @@ int getNextIndLeft(int ind, int n)
 		return ind + 1 + diff / 2;
 	return (ind + diff / 2) + 1;
 }
-int f(long long* t, int* a, int left, int right, int n, int startInt, int x, int v)
+int query(long long* t, int* a, int left, int right, int n, int startInt, int x, int v)
 {
 	if (t[v] < x)
 		return -1;
@@ -61,10 +61,10 @@ int f(long long* t, int* a, int left, int right, int n, int startInt, int x, int
 			return -1;
 	}
 
-	int res = f(t, a, left, getNextIndRight(left, right), n, startInt, x, v * 2);
+	int res = query(t, a, left, getNextIndRight(left, right), n, startInt, x, v * 2);
 	if (res != -1)
 		return res;
-	return f(t, a, getNextIndLeft(left, right), right, n, startInt, x, v * 2 + 1);
+	return query(t, a, getNextIndLeft(left, right), right, n, startInt, x, v * 2 + 1);
 
 }
 int main()
@@ -88,7 +88,7 @@ int main()
 		cin >> queryType >> arg1 >> arg2;
 		if (queryType == 1)
 		{
-			cout << f(t, a, 1, n, n, arg1 + 1, arg2, 1) << endl;
+			cout << query(t, a, 1, n, n, arg1 + 1, arg2, 1) << endl;
 		}
 		else
 		{
