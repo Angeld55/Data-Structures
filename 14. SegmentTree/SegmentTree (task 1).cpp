@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-
+//we need to answer queries of this type: for a given value x and a range a[l…r] find the smallest i in the range l…r, such that a[i] is greater than x.
 
 
 void update(long long* t, int v, int tl, int tr, int pos, int new_val) {
