@@ -22,26 +22,40 @@ private:
 	void CopyFrom(const DynamicArray<T>& other);
 	void Free();
 	void Resize(size_t newCap);
-	int closestPowerOfTwo(int n);
-
 	void swap(int i, int j);
 	int Partition(int low, int high);
 	void QuickSort(int low, int high);
 public:
 	void PushBack(const T& newElem); //add a new element in the end
 	T PopBack(); //removes the last element
+	
 	void InsertAt(size_t index, const T& newElem); //add a new element on random position
 	void RemoveAt(size_t index); //removes an element on random position
+	
 	int IndexOf(const T& el);
 	int getSize() const;
+	
 	const T& operator[](size_t index) const;
 	T& operator[](size_t index);
+	
 	void Sort();
 };
 
 template<typename T>
-DynamicArray<T>::DynamicArray() : curSize(0), capacity(4) {
+DynamicArray<T>::DynamicArray() : curSize(0), capacity(4) 
+{
 	arr = new T[capacity];
+}
+
+unsigned closestPowerOfTwo(unsigned n)
+{
+	n--;
+	n |= n >> 1;
+	n |= n >> 2;
+	n |= n >> 4;
+	n |= n >> 8;
+	n |= n >> 16;
+	return n + 1;
 }
 
 template <typename T>
@@ -57,9 +71,11 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T>& other) {
 }
 
 template<typename T>
-DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& other) {
+DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& other) 
+{
 
-	if (this != &other) {
+	if (this != &other) 
+	{
 		Free();
 		CopyFrom(other);
 	}
@@ -67,12 +83,14 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& other) {
 }
 
 template<typename T>
-DynamicArray<T>::~DynamicArray() {
+DynamicArray<T>::~DynamicArray() 
+{
 	Free();
 }
 
 template<typename T>
-void DynamicArray<T>::CopyFrom(const DynamicArray<T>& other) {
+void DynamicArray<T>::CopyFrom(const DynamicArray<T>& other) 
+{
 	
 	arr = new T[other.capacity];
 
@@ -84,12 +102,14 @@ void DynamicArray<T>::CopyFrom(const DynamicArray<T>& other) {
 }
 
 template<typename T>
-void DynamicArray<T>::Free() {
+void DynamicArray<T>::Free() 
+{
 	delete[] arr;
 }
 
 template<typename T>
-void DynamicArray<T>::Resize(size_t newCap) {
+void DynamicArray<T>::Resize(size_t newCap) 
+{
 	
 	T* temp = arr;
 	arr = new T[newCap];
@@ -100,14 +120,7 @@ void DynamicArray<T>::Resize(size_t newCap) {
 	delete[] temp;
 }
 
-template <typename T>
-int DynamicArray<T>::closestPowerOfTwo(int n)
-{
-	int res = 1;
-	while (res<n)
-		res *= 2;
-	return res;
-}
+
 
 template <typename T>
 void DynamicArray<T>::swap(int i, int j)
@@ -146,7 +159,8 @@ void DynamicArray<T>::QuickSort(int low, int high)
 }
 
 template<typename T>
-void DynamicArray<T>::PushBack(const T& newElem) {
+void DynamicArray<T>::PushBack(const T& newElem) 
+{
 
 	if (curSize >= capacity)
 		Resize(capacity * 2);
@@ -155,7 +169,8 @@ void DynamicArray<T>::PushBack(const T& newElem) {
 }
 
 template<typename T>
-T DynamicArray<T>::PopBack() {
+T DynamicArray<T>::PopBack() 
+{
 
 	T el = arr[curSize - 1];
 	if (curSize)
@@ -169,7 +184,8 @@ T DynamicArray<T>::PopBack() {
 }
 
 template<typename T>
-void DynamicArray<T>::InsertAt(size_t index, const T& newElem) {
+void DynamicArray<T>::InsertAt(size_t index, const T& newElem) 
+{
 
 	PushBack(newElem); //put the new element on last position
 
@@ -181,7 +197,8 @@ void DynamicArray<T>::InsertAt(size_t index, const T& newElem) {
 }
 
 template<typename T>
-void DynamicArray<T>::RemoveAt(size_t index) {
+void DynamicArray<T>::RemoveAt(size_t index) 
+{
 
 	if (index >= curSize || curSize == 1) { //removes the last element
 		PopBack();
@@ -205,13 +222,15 @@ int DynamicArray<T>::IndexOf(const T& el)
 }
 
 template<typename T>
-int DynamicArray<T>::getSize() const {
+int DynamicArray<T>::getSize() const 
+{
 	return curSize;
 }
 
 
 template<typename T>
-const T& DynamicArray<T>::operator[](size_t index) const {
+const T& DynamicArray<T>::operator[](size_t index) const 
+{
 
 	if (index > curSize)
 		throw std::out_of_range("Out of range!");
